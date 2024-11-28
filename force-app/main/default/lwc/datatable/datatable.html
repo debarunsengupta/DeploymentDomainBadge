@@ -1,0 +1,76 @@
+<template>
+    <div class="slds-page-header" style="height: 55px !important;" role="banner">
+        <div class="slds-grid slds-grid--align-spread" style="margin-top: -5px;">            
+            <!-- Start Part Of Header-->
+            <div class="slds-grid">
+                <div class="slds-col">
+ <lightning-icon icon-name="standard:case" size="small" title="Disputes" ></lightning-icon>
+                </div>
+                <div class="slds-col paddingLeft">
+                    <p class="slds-page-header__title slds-truncate headerLabel" title={myTitle}>{myTitle}</p>
+                </div>
+            </div> 
+        </div>   
+    </div>
+    <table data-id="tblData" class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_striped">
+        <thead>
+            <tr class="slds-text-title_caps">
+               <th scope="col" style="width: 15%;">
+                    <div class="slds-truncate">Salutation</div>
+                </th> 
+                <th scope="col" style="width: 10%;">
+                    <div class="slds-truncate">Name</div>
+                </th>
+                <th scope="col" style="width: 10%;">
+                    <div class="slds-truncate" title="disputeID">PersonBirthdate</div>
+                </th>
+                <th scope="col" style="width: 10%;">
+                    <div class="slds-truncate" title="itemType">CityName</div>
+                </th>
+                <th scope="col" style="width: 15%;">
+                    <div class="slds-truncate" title="itemDisputed">State</div>
+                </th>
+                <th scope="col" style="width: 10%;">
+                    <div class="slds-truncate" title="intExt">Postal Code</div>
+                </th>
+                <th scope="col" style="width: 15%;">
+                    <div class="slds-truncate" title="disputeReason">Phone Number</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+<template for:each={paginationList} for:item='employee' for:index='i'>
+					<tr key={employee.Salutation}>
+					<td key={employee.Salutation} data-label="Action">
+					<div key={employee.Salutation} class="slds-truncate" title="">{employee.Salutation}</div>
+					                    </td> 
+					<td key={employee.Salutation} data-label="Dispute ID">
+					<div key={employee.Salutation} class="slds-truncate" title="" >{employee.Name}</div>
+					                    </td>
+					<td key={employee.Salutation} data-label="Item Type">
+					<div key={employee.Salutation} class="slds-truncate" title="">{employee.PersonBirthdate}</div>
+					                    </td>
+					<td key={employee.Salutation} data-label="Item Disputed">
+					<div key={employee.Salutation} class="slds-truncate" title="">{employee.CityName}</div>
+					                    </td>
+					<td key={employee.Salutation} data-label="Internal/External">
+					<div key={employee.Salutation} class="slds-truncate" title="">{employee.State}</div>
+					                    </td>
+					<td key={employee.Salutation} data-label="Dispute Reason">
+					<div key={employee.Salutation} class="slds-truncate" title="">{employee.PostCode}</div>
+					                    </td>
+					<td key={employee.Salutation} data-label="Dispute Status">
+					<div key={employee.Salutation} class="slds-truncate" title="">{employee.Tel}</div>
+					                    </td>
+					<td key={employee.Salutation} data-label="Dispute Status">
+					<!-- key={employee.Salutation}   <button data-id={i} onclick={onClickmore}>Show more</button> -->
+					<input key={employee.Salutation} onclick={onClickmore} type="button" value="Show more" data-id={i}></input>
+					                    </td>
+					                </tr>
+					
+            </template>
+ <lightning-button label="Previous" disabled={retexp1} ></lightning-button>
+ <lightning-button label="Next" disabled={retexp2}></lightning-button>
+        </tbody>
+    </table>
+</template>

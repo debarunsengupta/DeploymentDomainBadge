@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#0070D2</headerColor>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <isNavTabPersistenceDisabled>false</isNavTabPersistenceDisabled>
+    <isOmniPinnedViewEnabled>false</isOmniPinnedViewEnabled>
+    <label>Suggestion Box</label>
+    <navType>Standard</navType>
+    <profileActionOverrides>
+        <actionName>Tab</actionName>
+        <content>Sales_Home</content>
+        <formFactor>Large</formFactor>
+        <pageOrSobjectType>standard-home</pageOrSobjectType>
+        <type>Flexipage</type>
+        <profile>Custom: Sales Profile</profile>
+    </profileActionOverrides>
+    <tabs>Suggestion__c</tabs>
+    <tabs>standard-report</tabs>
+    <tabs>standard-Dashboard</tabs>
+    <tabs>Energy_Audit__c</tabs>
+    <tabs>Contact__x</tabs>
+    <tabs>Case__x</tabs>
+    <tabs>Opportunity__x</tabs>
+    <tabs>Account__x</tabs>
+    <tabs>Index_Page</tabs>
+    <tabs>Battle_Station__c</tabs>
+    <tabs>Resource__c</tabs>
+    <tabs>Supply__c</tabs>
+    <tabs>Backup__c</tabs>
+    <tabs>SAMPLE__c</tabs>
+    <tabs>Tower__c</tabs>
+    <tabs>abc__c</tabs>
+    <tabs>Employee__c</tabs>
+    <tabs>Job_Application_Custom__c</tabs>
+    <tabs>Hotel__c</tabs>
+    <tabs>Timesheet__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Suggestion_Box_UtilityBar</utilityBar>
+</CustomApplication>

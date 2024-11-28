@@ -1,0 +1,18 @@
+<template>
+Testing Now
+    <template for:each={accounts} for:item="account">
+        <li key={account.Id}>
+            {account.Name}-
+            {account.Rating}
+       </li>
+      
+       
+    </template>
+    <lightning-combobox
+    name="Rating choose"
+    label="Rating"
+    value={value}
+    placeholder="Select Progress"
+    options={options}
+    onchange={handleChange} ></lightning-combobox>
+</template>

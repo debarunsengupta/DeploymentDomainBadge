@@ -1,0 +1,16 @@
+<template>
+    <div class="slds-m-around_xx-large">
+    <lightning-button label="Fetch Filtered Picklist Values" style="width: 264px;float: right;" onclick={fetchfilteredpicklistVal} class="slds-button slds-button_brand slds-button_stretch" variant="brand" data-object={objectname}
+            data-fieldapi={objectfieldapi} data-filter={FilterValues}></lightning-button>
+    <br />
+    <br />
+    {label.AvailableRecType}
+    <select class="slds-select" id="select-01" style="width:300px" onchange={onChangeFunction} data-object={objectname} data-fieldapi={objectfieldapi} data-filter={FilterValues}>
+    <template for:each={lstOfRecordType} for:item="recordtype">
+    <option value={recordtype.label} key={recordtype.label}>{recordtype.value}</option>
+    </template>
+    </select>
+    <br /><br /><br /><br /><br />
+    <lightning-dual-listbox id="selectOptions" name="Genre" label={label.AvailableRecType} source-label={label.AvailableOptions} selected-label={label.SelectObject} options={GenreList} value={selectedGenreList} onchange={handleGenreChange}></lightning-dual-listbox>
+    </div>
+    </template>

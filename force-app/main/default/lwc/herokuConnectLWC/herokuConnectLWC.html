@@ -1,0 +1,21 @@
+<template>
+    Callout Comp
+    <template for:each={data} for:item="eachdata">
+        <li key={eachdata.SFDCID}>
+    <template if:true={eachdata.NumberOfEmployee}>
+        <h1> {eachdata.AccountName} </h1>
+         No of Employee:  {eachdata.NumberOfEmployee} <br/>
+         Rating:  {eachdata.Rating}<br/>
+         Account Name:  {eachdata.AccountName}<br/>
+         SFDC Id:  {eachdata.SFDCID}
+    </template>
+    <template if:false={eachdata.NumberOfEmployee}>
+        <h1> {eachdata.AccountName} </h1>
+        No of Employee: Not Available <br/>
+        Rating:  Not Available <br/>
+        Account Name:  Not Available 
+        ---------
+   </template>
+       </li>
+    </template>
+</template>

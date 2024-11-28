@@ -1,0 +1,51 @@
+<template>
+    <template if:true={multiSelect}>
+        <div class="slds-form-element">
+            <label class="slds-form-element__label" for="combobox-unique-id-8">
+                <template if:true={required}>
+                    <abbr class="slds-required" title="required">*</abbr>
+                </template>
+                {fieldLabel}
+            </label>
+            <div class="slds-form-element__control">
+                <div class="slds-combobox_container slds-size_x-small">
+                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none" >
+                             <textarea data-id="selectedItems" class="slds-input slds-combobox__input slds-combobox__input-value"  aria-controls="listbox-unique-id" role="textbox" placeholder="Select an Option" readonly="" onchange={setFieldValue} required={required} disabled="True">{dummyFieldValue}</textarea>
+                            <template if:false={readOnly}>
+                                <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right" title="Expand" onclick={toggledropdownList} >
+<lightning-icon icon-name="utility:down" size="x-small" class="cursorPointer"></lightning-icon>
+                                </span>
+                            </template>
+                        </div>
+                        <div data-id="listbox-unique-id" role="listbox" onmouseleave={toggledropdownList}>
+                            <ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid" style="max-height: 200px; overflow: auto" role="presentation"  data-id='dropdownValues'>
+<template for:each={lstOfPicklistValues} for:item='eachPicklistValue' >
+                <li key={eachPicklistValue.picklistValue} role="presentation" class="slds-listbox__item">
+                <div key={eachPicklistValue.picklistValue} data-id="listbox-option-unique-id-01" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small slds-media_center" onclick={setValue} role="option" title={eachPicklistValue.picklistValue}>
+                <span key={eachPicklistValue.picklistValue} class="slds-media__figure">
+                                                                </span>
+                <span key={eachPicklistValue.picklistValue} class="slds-media__body">
+                <span key={eachPicklistValue.picklistValue} class="slds-truncate" title={eachPicklistValue.picklistLabel}>
+                <span key={eachPicklistValue.picklistValue} class="slds-assistive-text">Current Selection:</span>{eachPicklistValue.picklistLabel}</span>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:false={multiSelect}>
+<select data-id="field" name="select" onchange={setFieldValue} required={required} disabled={readOnly}>
+             <option value="" selected={retexp1} >----None----</option>
+<template for:each={lstOfPicklistValues} for:item='eachPicklistValue' >
+                 <option key={eachPicklistValue.picklistValue} value={eachPicklistValue.picklistValue} selected={retexp2} >{eachPicklistValue.picklistLabel}</option>
+            </template>
+</select>
+    </template> 
+<lightning-input label="x" name="y"></lightning-input>
+</template>

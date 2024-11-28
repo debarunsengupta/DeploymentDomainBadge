@@ -1,0 +1,159 @@
+<template>
+    <lightning-card>
+    <template if:false={addressValidate}>
+    <span style="color:red;font-size: 18px;"> There is an error in the address field mapping. Please contact with System Admin on this.</span>
+    </template>
+    
+      <!--Address information section header -->
+      <template if:true={addressValidate}>
+      <div class="slds-grid slds-wrap slds-m-left_small slds-m-top_large">
+        <div class="slds-col slds-size_9-of-12">
+            <div class="slds-page-header" style="background-color: #0070D2">
+                <div class="slds-page-header__row">
+                    <div class="slds-page-header__col-title">
+                        <div class="slds-media">
+                            <div class="slds-media__body">
+                                <div class="slds-page-header__name">
+                                    <div class="slds-page-header__name-title">
+                                        <h1>
+                                            <span class="slds-page-header__title slds-truncate" title="Address Information">Address Information</span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!--Address information input field list -->
+        <template if:true={showAddressSearch}>
+        <div class="slds-col slds-size_9-of-12 slds-m-top_medium">
+            <lightning-input
+            name="Address"
+            label="Address"
+            type="search" class="slds-lookup__search-input address" placeholder="Search Address" onclick={OpenModal}
+        ></lightning-input>
+        </div>
+        </template>
+        <div class="slds-col slds-size_9-of-12 slds-m-top_x-small">
+
+            <lightning-textarea name="Street" label="Street" value={street} class="street" onkeyup={validateFields} required="true"></lightning-textarea>
+          
+        </div>
+        <div class="slds-col slds-size_6-of-12 slds-m-top_x-small">
+
+            <lightning-input type="text" label="City" value={city} onkeyup={validateFields}  class="city" required="true" onchange={validateFields}></lightning-input>
+
+        </div>
+        <div class="slds-col slds-size_3-of-12 slds-m-left_xxx-small slds-m-top_x-small">
+            <lightning-input type="text" label="State/Province" value={state} onkeyup={validateFields}  class="state" onchange={validateFields} required="true"></lightning-input>
+
+        </div>
+        <div class="slds-col slds-size_6-of-12 slds-m-top_x-small">
+            <lightning-input type="text" name="zipcode" label="Zip/Postal Code" value={zipcode} onkeyup={validateFields}  class="zipcode" onchange={validateFields} required="true"></lightning-input>
+        </div>
+        <div class="slds-col slds-size_3-of-12 slds-m-left_xxx-small slds-m-top_x-small">
+            <lightning-input type="text" label="Country" value={country} onkeyup={validateFields} class="country" name="country" onchange={validateFields} required="true"></lightning-input>
+        
+
+      
+        </div>
+        <div class="slds-col slds-size_3-of-12 slds-m-top_medium">
+            <lightning-button variant="brand" label="Save" title="Save" onclick={saveAddress} class="slds-m-left_x-small"></lightning-button>
+         
+        </div>
+
+       <div class="slds-col slds-size_3-of-12 slds-m-top_medium">
+           <lightning-button variant="brand" label="Show on Map" style="white-space: nowrap;width: 100%" title="Show on Map" onclick={showOnMap} class="slds-m-left_x-small"></lightning-button>
+          <br/><br/>
+ 
+        
+          <lightning-map map-markers={mapMarkers} onmarkerselect={handleMarkerSelect}
+          selected-marker-value={selectedMarkerValue} zoom-level={zoomLevel}>
+      </lightning-map>  
+
+        </div>
+ 
+    </div>
+
+        <!-- Modal box starts -->
+        <template if:true={showModalBox}>
+            <div class="" style="">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                                <lightning-icon icon-name="utility:close"
+                                    alternative-text="close"
+                                    variant="inverse"
+                                    size="small" ></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+
+
+                            <!--<button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                                <span class="slds-assistive-text">Close</span>
+                            </button>-->
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"><b>Address Search</b></h2>
+                        </header>
+                        
+                        <div class="">
+                            <div  class="slds-size_12-of-12 slds-form-element__control slds-input-has-icon slds-input-has-icon_right slds-input-has-icon_group-right">
+                               <!-- <lightning-button-icon icon-name="utility:close"  onclick={clear} size="medium"  class="slds-m-right_xx-large slds-input__icon slds-input__icon_right" variant="bare"></lightning-button-icon>-->
+
+                                <lightning-input
+                                name="searchKey"
+                               type="search" class="slds-p-bottom_large slds-input slds-combobox__input" placeholder="Enter address.." onkeyup={getAddressRecommendations}
+                            value={searchKey}></lightning-input>
+
+                            
+                            </div>
+                            <!-- list of address display -->
+                            <template if:true={checkAddressList}>
+                                <div class="Address-listbox" role="listbox">
+                                    <ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid" role="presentation">
+                                     <template for:each={AddressList} for:item="addList">
+                                        <li role="presentation"
+                                        onclick={selectOption}
+                                        data-value={addList.place_id}
+                                        class="slds-listbox__item" key={addList.place_id}>
+                                        <span 
+                                              class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta"
+                                              role="option">
+                                            <span class="slds-media__body slds-m-left_xx-small slds-m-bottom_xx-small">
+                                                <div class="slds-grid slds-m-bottom_small">
+                                                    <div class="slds-col slds-size_1-of-10"> 
+                                                       <lightning-button-icon icon-name="utility:checkin"  onclick={clear} size="medium"  class="slds-input__icon" variant="bare"></lightning-button-icon>
+                                                    </div>
+                                                    <div class="slds-m-left_medium slds-col slds-size_8-of-10"> 
+                                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity"><b>{addList.main_text}</b></span>
+                                                        <span class="slds-listbox__option-text slds-listbox__option-text_entity slds-m-top_xxx-small">{addList.secondary_text}</span></div>
+                                                    <div class="slds-col slds-size_1-of-10"></div>
+                                                </div>
+                                            </span>
+                                        </span>
+                                        </li>
+                                    
+                                     </template>
+                                   
+                                    </ul>
+                                </div>
+                            </template>
+                        </div>
+                        <footer class="slds-modal__footer">
+                         <!--   <lightning-button variant="brand" label="Cancel" title="Cancel" onclick={closeModal} class="slds-m-left_x-small"></lightning-button>-->
+
+                          
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+            <!-- Modal box ends here -->
+        </template>
+    </template>
+</lightning-card>
+</template>

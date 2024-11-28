@@ -1,0 +1,21 @@
+<template>
+
+    <div class="slds-m-around_xx-large">
+        <lightning-button class="slds-button_success" label="Fetch Filtered Picklist Values" onclick={fetchfilteredpicklistVal}></lightning-button>
+                <br/>
+                <br/>
+                Select Available Record Type:
+         <select data-id="selectid" onchange={onChangeFunction}>
+        <template for:each={lstOfRecordType} for:item='contact' >
+         <option key={contact.label} >{contact.label}</option>
+                                        </template>
+        </select>
+                <br/><br/>
+        <lightning-dual-listbox data-id="selectRecord"
+                                       name="Genre"
+                                       label="Select Account" 
+                                       options={GenreList}
+                                       value={selectedGenreList}
+                                       onchange={handleGenreChange}></lightning-dual-listbox>
+            </div>
+</template>

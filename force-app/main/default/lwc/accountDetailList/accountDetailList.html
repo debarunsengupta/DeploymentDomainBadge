@@ -1,0 +1,10 @@
+<template>
+    <lightning-layout vertical-align="center">
+        <lightning-layout-item padding="around-small">
+            Fire Event from button <br/>
+            <div onclickgrand={handleInChild}>
+                <c-account-grand-child onclickgrand={handleInChildEmbed}></c-account-grand-child>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

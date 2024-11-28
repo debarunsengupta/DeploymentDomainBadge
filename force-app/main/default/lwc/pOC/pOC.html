@@ -1,0 +1,24 @@
+<template>
+   <lightning-card  title="Reactive Wire Service">
+    <lightning-combobox
+    name="Industry"
+    label="Select Industry"
+    value={value}
+    placeholder="Select Industry"
+    options={options}
+    onchange={handleChange}></lightning-combobox>
+
+      <p class="slds-p-horizontal_small">
+     <template for:each={accounts} for:item="account">
+              <div key={account.Id}> 
+                  <li >
+                {account.Name}- {account.Industry}
+              </li>
+          
+        </div>
+             
+          </template>
+        </p>
+  
+   </lightning-card> 
+</template>

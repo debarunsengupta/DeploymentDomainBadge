@@ -1,0 +1,28 @@
+<template>
+    <lightning-card variant="Narrow" title="Multiple ways to Loop through Array/List in LWC & Javascript">
+        <div class="slds-m-around_medium">
+            <p class="slds-text-title_bold">For-Each Loop:</p>
+            <template if:true={lstAccounts}>
+            <template for:each={lstAccounts} for:item="acc">
+                <p key={acc.Id} style="display:inline">
+                    <lightning-badge label={acc.Name}></lightning-badge>
+                </p>
+            </template> 
+            </template><br/><br/>
+            <p class="slds-text-title_bold">Iterator:</p>
+            <template iterator:acc={lstAccounts}>
+                <p key={acc.value.Id} style="display:inline">
+                    <lightning-badge label={acc.value.Name} class="slds-badge_inverse"></lightning-badge>
+                </p>
+            </template> <br/><br/>
+            <p class="slds-text-title_bold">Loops in Javascript</p>
+            <ol class="slds-list--ordered">
+                <li>Basic For Loop</li>
+                <li><strong>forEach</strong> Method</li>
+                <li><strong>forEach Array</strong> Function</li>
+                <li>For...In loop</li>
+                <li>For...Of loop</li>
+            </ol> 
+        </div>
+    </lightning-card>
+</template>

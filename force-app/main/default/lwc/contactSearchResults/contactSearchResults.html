@@ -1,0 +1,11 @@
+<template>
+    <lightning-card title="LWC component Subscriber">
+        <template if:true={contacts.data}>
+            <template for:each={contacts.data} for:item='con'>
+                <div key={con.id}>
+                    {con.Name}
+                </div>
+            </template>
+        </template>
+        </lightning-card>
+    </template>

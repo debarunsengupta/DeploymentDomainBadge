@@ -1,0 +1,279 @@
+<!--
+MIT License
+
+Copyright (c) 2020 Playground, https://www.playg.app
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+<template>
+    <div if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading..."></lightning-spinner>
+    </div>
+    <div class="slds-box slds-theme_default slds-m-horizontal_xx-small">
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-m-left_none slds-m-bottom_xx-small">
+                <lightning-button icon-name="utility:save" label="Save" onclick={save} variant="brand" disabled={disableSave}></lightning-button>
+                <lightning-button icon-name="utility:rotate" label="Reset" onclick={reset} variant="success"></lightning-button>
+            </div>
+        </div>
+        <div if:true={showResponse} class="slds-m-left_x-small">
+            <div if:false={saveResponse.isSuccess}>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <ul>
+                        <li>
+                            <b>Associating Permission Set to Users:</b>
+                        </li>
+                        <li>
+                            Total - {saveResponse.totalInserts}
+                        </li>
+                        <li>
+                            Success - {saveResponse.insertSucceses}
+                        </li>
+                        <li>
+                            Error - {saveResponse.insertFailures}
+                        </li>
+                        <li>
+                            <b>Removing Permission Set from Users:</b>
+                        </li>
+                        <li>
+                            Total - {saveResponse.totalDeletes}
+                        </li>
+                        <li>
+                            Success - {saveResponse.deleteSucceses}
+                        </li>
+                        <li>
+                            Error - {saveResponse.deleteFailures}
+                        </li>
+                        <template for:each={saveResponse.insertErrors} for:item="insertError">
+                            <li key={insertError.errorMessage}>
+                                {insertError.errorMessage}
+                            </li>
+                        </template>
+                    </ul>
+                    <ul>
+                        
+                    </ul>
+                    <ul>
+                        <template for:each={saveResponse.deleteErrors} for:item="deleteError">
+                            <li key={deleteError.errorMessage}>
+                                {deleteError.errorMessage}
+                            </li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+            <div if:true={saveResponse.isSuccess}>
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info" role="alert">
+                    <span class="slds-assistive-text">info</span>
+                    <ul>
+                        <li>
+                            <b>Associating Permission Sets to Users:</b>
+                        </li>
+                        <li>
+                            Total - {saveResponse.totalInserts}
+                        </li>
+                        <li>
+                            Success - {saveResponse.insertSucceses}
+                        </li>
+                        <li>
+                            Error - {saveResponse.insertFailures}
+                        </li>
+                        <li>
+                            <b>Removing Permission Sets from Users:</b>
+                        </li>
+                        <li>
+                            Total - {saveResponse.totalDeletes}
+                        </li>
+                        <li>
+                            Success - {saveResponse.deleteSucceses}
+                        </li>
+                        <li>
+                            Error - {saveResponse.deleteFailures}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <lightning-tabset>
+            <lightning-tab label="Permission Set to Users" onactive={selectPermissionSetTab}>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-box slds-size_3-of-6">
+                        <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="slds-text-align_right" scope="col" style="width:3.25rem; padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="Select">Select</div>
+                                        </div>
+                                    </th>
+                                    <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col" style="padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="Name">Permission Set Name</div>
+                                        </div>
+                                    </th>
+                                    <th aria-label="UserLicense" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col" style="padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="User License">User License</div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={permissionSets} for:item="permissionSet">
+                                    <tr aria-selected="false" class="slds-hint-parent" key={permissionSet.id}>
+                                        <td class="slds-text-align_right" role="gridcell" style="width:3.25rem; padding:.25rem;">
+                                            <lightning-input type="checkbox" name={permissionSet.id} onchange={handlePermissionSetChange} checked={permissionSet.checked}></lightning-input>
+                                        </td>
+                                        <td role="gridcell" style="padding:.25rem;">
+                                            <div class="slds-truncate" title={permissionSet.label}>{permissionSet.label}</div>
+                                        </td>
+                                        <td role="gridcell" style="padding:.25rem;">
+                                            <div class="slds-truncate" title={permissionSet.userLicenseName}>{permissionSet.userLicenseName}</div>
+                                        </td>
+                                    </tr>
+                                </template>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="slds-col slds-box slds-size_3-of-6">
+                        <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="slds-text-align_right" scope="col" style="width:3.25rem; padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="Select">Select</div>
+                                        </div>
+                                    </th>
+                                    <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col" style="padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="Name">User Name</div>
+                                        </div>
+                                    </th>
+                                    <th aria-label="UserLicense" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col" style="padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="User License">User License</div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={permissionSetAssignments} for:item="permissionSetAssignment">
+                                    <tr aria-selected="false" class="slds-hint-parent" key={permissionSetAssignment.assigneeId}>
+                                        <td class="slds-text-align_right" role="gridcell" style="width:3.25rem; padding:.25rem;">
+                                            <lightning-input type="checkbox" name={permissionSetAssignment.assigneeId} checked={permissionSetAssignment.checked} onchange={handleUserSelect}></lightning-input>
+                                        </td>
+                                        <td role="gridcell" style="padding:.25rem;">
+                                            <div class="slds-truncate" title={permissionSetAssignment.assigneeName}>{permissionSetAssignment.assigneeName}</div>
+                                        </td>
+                                        <td role="gridcell" style="padding:.25rem;">
+                                            <div class="slds-truncate" title={permissionSetAssignment.assigneeUserLicenseName}>{permissionSetAssignment.assigneeUserLicenseName}</div>
+                                        </td>
+                                    </tr>
+                                </template>
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </lightning-tab>
+            <lightning-tab label="User to Permission Sets"  onactive={selectUserTab}>
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-box slds-size_3-of-6">
+                        <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="slds-text-align_right" scope="col" style="width:3.25rem; padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="Select">Select</div>
+                                        </div>
+                                    </th>
+                                    <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col" style="padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="Name">User Name</div>
+                                        </div>
+                                    </th>
+                                    <th aria-label="UserLicense" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col" style="padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="User License">User License</div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={users} for:item="user">
+                                    <tr aria-selected="false" class="slds-hint-parent" key={user.id}>
+                                        <td class="slds-text-align_right" role="gridcell" style="width:3.25rem; padding:.25rem;">
+                                            <lightning-input type="checkbox" name={user.id} onchange={handleUserChange} checked={user.checked}></lightning-input>
+                                        </td>
+                                        <td role="gridcell" style="padding:.25rem;">
+                                            <div class="slds-truncate" title={user.name}>{user.name}</div>
+                                        </td>
+                                        <td role="gridcell" style="padding:.25rem;">
+                                            <div class="slds-truncate" title={user.userLicenseName}>{user.userLicenseName}</div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="slds-col slds-box slds-size_3-of-6">
+                        <table aria-multiselectable="true" class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="slds-text-align_right" scope="col" style="width:3.25rem; padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="Select">Select</div>
+                                        </div>
+                                    </th>
+                                    <th aria-label="Name" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col" style="padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="Name">Permission Set Name</div>
+                                        </div>
+                                    </th>
+                                    <th aria-label="UserLicense" aria-sort="none" class="slds-is-resizable slds-is-sortable" scope="col" style="padding:.25rem;">
+                                        <div class="slds-grid slds-grid_vertical-align-center slds-has-flexi-truncate">
+                                            <div class="slds-truncate" title="User License">User License</div>
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={permissionSetAssignments} for:item="permissionSetAssignment">
+                                    <tr aria-selected="false" class="slds-hint-parent" key={permissionSetAssignment.assigneeId}>
+                                        <td class="slds-text-align_right" role="gridcell" style="width:3.25rem; padding:.25rem;">
+                                            <lightning-input type="checkbox" name={permissionSetAssignment.permissionSetId} checked={permissionSetAssignment.checked} onchange={handlePermissionSelect}></lightning-input>
+                                        </td>
+                                        <td role="gridcell" style="padding:.25rem;">
+                                            <div class="slds-truncate" title={permissionSetAssignment.assigneeName}>{permissionSetAssignment.permissionSetName}</div>
+                                        </td>
+                                        <td role="gridcell" style="padding:.25rem;">
+                                            <div class="slds-truncate" title={permissionSetAssignment.assigneeUserLicenseName}>{permissionSetAssignment.permissionSetLicenseName}</div>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </lightning-tab>
+        </lightning-tabset>
+    </div>
+</template>

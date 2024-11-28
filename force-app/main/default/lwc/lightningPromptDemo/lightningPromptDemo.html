@@ -1,0 +1,52 @@
+<template>
+
+    <div class="slds-m-top_medium slds-m-bottom_x-large button-group">
+        <h2 class="slds-text-heading_medium slds-m-bottom_medium">
+            Prompts Demo
+        </h2>
+
+        <!-- Button group: simple buttons -->
+        <lightning-button-group>
+            <lightning-button label="Info" data-id="info" onclick={handleClick}></lightning-button>
+            <lightning-button label="Warning" data-id="warning" onclick={handleClick}></lightning-button>
+            <lightning-button label="Error" data-id="error" onclick={handleClick}></lightning-button>
+            <lightning-button label="Offline" data-id="offline" onclick={handleClick}></lightning-button>
+        </lightning-button-group>
+    </div>
+
+    <c-lightning-prompt 
+        header={error.header} 
+        message={error.message} 
+        buttons={error.buttons}
+        type="error"
+        show={errorPrompt}
+        onpromptaction={onPromptAction}>
+    </c-lightning-prompt>
+
+    <c-lightning-prompt 
+        header={info.header} 
+        message={info.message} 
+        buttons={info.buttons}
+        type="info"
+        show={infoPrompt}
+        onpromptaction={onPromptAction}>
+    </c-lightning-prompt>
+
+    <c-lightning-prompt 
+        header={warning.header} 
+        message={warning.message} 
+        buttons={warning.buttons}
+        type="warning"
+        show={warningPrompt}
+        onpromptaction={onPromptAction}>
+    </c-lightning-prompt>
+
+    <c-lightning-prompt 
+        header={offline.header} 
+        message={offline.message} 
+        buttons={offline.buttons}
+        type="offline"
+        show={offlinePrompt}
+        onpromptaction={onPromptAction}>
+    </c-lightning-prompt>
+</template>

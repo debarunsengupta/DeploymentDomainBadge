@@ -1,0 +1,29 @@
+<template>
+    <lightning-card title={strTitle} icon-name=”standard:record”>
+
+    <lightning-button label= "Create" onclick={createNew} slot="actions"></lightning-button>
+    
+
+   <div class=”slds-m-around_medium”>
+    <div if:true={listRecords}>
+    <template for:each={listRecords} for:item="rec">
+    <div key={rec.Id} class=”slds-box”>
+    <lightning-record-view-form record-id={rec.Id} object-api-name={objectName}>
+    <div class=”slds-grid”>
+    <lightning-button label= "Update" onclick={editClicked} slot="actions" data-item={rec.Id}></lightning-button>
+    <div class="slds-col slds-size_1-of-2">
+    <lightning-output-field field-name={field1}></lightning-output-field>
+    <lightning-output-field field-name={field2}></lightning-output-field>
+    </div>
+    <div class="slds-col slds-size_1-of-2">
+    <lightning-output-field field-name={field3}></lightning-output-field>
+    <lightning-output-field field-name={field4}></lightning-output-field>
+    </div>
+    </div>
+    </lightning-record-view-form><br/><br/>
+    </div>
+    </template>
+    </div>
+    </div>
+    </lightning-card>
+    </template>
