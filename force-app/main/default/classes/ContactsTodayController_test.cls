@@ -14,7 +14,7 @@ public class ContactsTodayController_test {
             Date td = Date.today();
             Task t = new Task(Subject = 'test', WhoId = c.Id, Status = 'Open');
             insert t;
-            
+            system.debug('aa');
             System.assertNotEquals(0,ContactsTodayController.getContactsForToday().size());
             
         }
